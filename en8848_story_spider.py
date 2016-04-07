@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding:utf-8 -*-
 import requests
 from bs4 import BeautifulSoup
@@ -12,14 +13,14 @@ import re
 leancloud.init('3fg5ql3r45i3apx2is4j9on5q5rf6kapxce51t5bc0ffw2y4', 'twhlgs6nvdt7z7sfaw76ujbmaw7l12gb8v6sdyjw1nzk9b1a')
 
 def nowplaying_movies(url,publish_time):
-    # url = 'http://www.en8848.com.cn//tingli/news/voa-spnews2015/253689.html'
+    # url = 'http://www.en8848.com.cn//bec/kouyu/tiantianshuo/227471.html'
     global source_name
     global category
     global type
     global item_id
     global category_2
+    global type_name
     contents = ''
-    type_name = ''
     img_url = ''
     media_url = ''
     headers = {'User-Agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.80 Safari/537.36'}
@@ -82,15 +83,19 @@ def nowplaying_movies(url,publish_time):
             media_end = soup.text.index('.mp3',media_start)
             media_url = soup.text[media_start+5:media_end+4]
             print 'has mp3 player'
+        else:
+            type = 'text'
 
 
-        avi = soup.find('a',id='tempa')
-        if avi != None:
-            media_url = avi['href']
-            type = 'video'
+        # avi = soup.find('a',id='tempa')
+        # if avi != None:
+        #     media_url = avi['href']
+        #     type = 'video'
+        # else:
+        #     type = 'text'
 
         title = soup.find('h1',id='toph1bt').text
-        type_name = '童话故事'
+
         if is_exit(title):
             print('already exit')
             return
@@ -162,7 +167,6 @@ def get_all_link(url):
     soup = BeautifulSoup(req.text,"html5lib")
     ulstr = soup.find_all('div', class_='ch_li_right')
     dates = soup.find_all('div', class_='ch_li_left')
-    print len(ulstr)
     for i in range(0,len(ulstr)):
         href = 'http://www.en8848.com.cn/' + ulstr[i].find('a')['href']
         datestr = dates[i].text[-12:].strip()
@@ -176,65 +180,75 @@ source_name = '小e英语'
 category = 'shuangyu_reading'
 category_2 = ''
 type = 'text'
+type_name = ''
 
 def task():
     global item_id
     global category
+    global type_name
     global category_2
     item_id = get_lastest_item_id();
     print('item_id %d' % item_id)
-    index = 4
     type_url = ''
-    type0 = [('story',55),('proseessay',31),('culture',86),('poems',32),('jokes',107),('zc',27),('lyrics',40),('dlrw',27),('bi',100)]
-    type1 = [('basic',167),('slang',148),('live',279),('use',110),('crazy',48),('learnfilm',24),('hangye',19),('brand',178),('fy',33)]
-    type2 = [('primary',21),('speech',31),('voaspecial',93),('meiwen',41),('brand',189),('news',643),('program',130),('movietv',38)]
-    type3 = [('kouyu',95),('ms',36)]
-    type4 = [('kouyu',110),('waimao',54),('use',12),('write',34),('cihui',36)]
-    if index == 0:
-        type = type0
-    elif index == 1:
-        type = type1
-    elif index == 2:
-        type = type2
-    elif index == 3:
-        type = type3
-    elif index == 4:
-        type = type4
+    type0 = [('story',1),('proseessay',1),('culture',1),('poems',1),('jokes',1),('zc',1),('lyrics',1),('dlrw',1),('bi',1)]
+    type1 = [('basic',1),('slang',1),('live',1),('use',1),('crazy',1),('learnfilm',1),('hangye',1),('brand',1),('fy',1)]
+    type2 = [('primary',1),('speech',1),('voaspecial',1),('meiwen',1),('brand',1),('news',1),('program',1),('movietv',1)]
+    type3 = [('kouyu',1),('ms',1)]
+    type4 = [('kouyu',1),('waimao',1),('use',1),('write',1),('cihui',1)]
+    for index in range(0,5):
+        if index == 0:
+            type_name = '英语阅读'
+            type = type0
+        elif index == 1:
+            type_name = '英语口语'
+            type = type1
+        elif index == 2:
+            type_name = '英语听力'
+            type = type2
+        elif index == 3:
+            type_name = '职场英语'
+            type = type3
+        elif index == 4:
+            type_name = '商务英语'
+            type = type4
 
-    for item in type:
-        # for i in range(1,2):
-        for i in range(item[1],0,-1):
-            if index == 0:
-                type_url = 'read'
-                if item[0] == 'jokes':
-                    category = 'jokes'
-                else:
-                    category = 'shuangyu_reading'
-            elif index == 1:
-                type_url = 'kouyu'
-                category = 'spoken_english'
-            elif index == 2:
-                type_url = 'tingli'
-                category = 'listening'
-            elif index == 3:
-                type_url = 'office'
-                category = 'spoken_english'
-            elif index == 4:
-                category_2 = '商务英语'
-                type_url = 'bec'
-                if item[0] == 'write':
-                    category = 'composition'
-                elif item[0] == 'cihui':
-                    category = 'word'
-                else:
+        for item in type:
+            # for i in range(1,2):
+            for i in range(item[1],0,-1):
+                if index == 0:
+                    type_url = 'read'
+                    if item[0] == 'jokes':
+                        category = 'jokes'
+                    else:
+                        category = 'shuangyu_reading'
+                    category_2 = ''
+                elif index == 1:
+                    type_url = 'kouyu'
                     category = 'spoken_english'
-            # print category
-            if i == 1:
-                url = 'http://www.en8848.com.cn/%s/%s/index.html' % (type_url,item[0])
-            else:
-                url = 'http://www.en8848.com.cn/%s/%s/index_%d.html'% (type_url,item[0],i)
-            print('root url:'+url)
-            get_all_link(url)
+                    category_2 = ''
+                elif index == 2:
+                    type_url = 'tingli'
+                    category = 'listening'
+                    category_2 = ''
+                elif index == 3:
+                    type_url = 'office'
+                    category = 'spoken_english'
+                    category_2 = ''
+                elif index == 4:
+                    type_url = 'bec'
+                    if item[0] == 'write':
+                        category = 'composition'
+                    elif item[0] == 'cihui':
+                        category = 'word'
+                    else:
+                        category = 'spoken_english'
+                # print category
+                if i == 1:
+                    url = 'http://www.en8848.com.cn/%s/%s/index.html' % (type_url,item[0])
+                else:
+                    url = 'http://www.en8848.com.cn/%s/%s/index_%d.html'% (type_url,item[0],i)
+                print('root url:'+url)
+                get_all_link(url)
 
 def timer(n):
     while True:

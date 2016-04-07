@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding:utf-8 -*-
 import requests
 from bs4 import BeautifulSoup
@@ -145,8 +146,6 @@ def task():
 
 
 if __name__ == '__main__':
-    # url = "http://www.adreep.cn/xx/54939.html"
-    # nowplaying_movies(url)
     task()
 
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding:utf-8 -*-
 import requests
 from bs4 import BeautifulSoup
@@ -56,6 +57,7 @@ def nowplaying_movies(url,typeId,publish_time):
     type_name = ''
     browser = webdriver.PhantomJS(executable_path='/Users/luli/Downloads/phantomjs-2.1.1-macosx/bin/phantomjs')
     browser.get(url)
+    print 'current_url:'+browser.current_url
     # time.sleep(3)
 
     try:
