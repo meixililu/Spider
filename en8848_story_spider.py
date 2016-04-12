@@ -23,12 +23,12 @@ def nowplaying_movies(url,publish_time):
     contents = ''
     img_url = ''
     media_url = ''
-    headers = {'User-Agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.80 Safari/537.36'}
-    req = requests.get(url,headers=headers)
-    req.encoding='utf-8'
-    soup = BeautifulSoup(req.text,"html5lib")
-
     try:
+        headers = {'User-Agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.80 Safari/537.36'}
+        req = requests.get(url,headers=headers)
+        req.encoding='utf-8'
+        soup = BeautifulSoup(req.text,"html5lib")
+
         if soup.find('div',class_='info-qh') != None and soup.find('div',id='articlebody') != None:
             if len(soup.find('div',id='articlebody').find_all('p')) > 0:
                 div = soup.find('div',id='articlebody')

@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding:utf-8 -*-
 import requests
 from bs4 import BeautifulSoup
@@ -11,12 +10,15 @@ import time
 import re
 import types
 import traceback
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 leancloud.init('3fg5ql3r45i3apx2is4j9on5q5rf6kapxce51t5bc0ffw2y4', 'twhlgs6nvdt7z7sfaw76ujbmaw7l12gb8v6sdyjw1nzk9b1a')
 
 def nowplaying_movies(url,publish_time):
     # url = 'http://www.hjenglish.com/new/p768394/'
-    # url = 'http://www.hjenglish.com/new/p575854/'
+    # url = 'http://www.hjenglish.com/new/p582424/'
     global source_name
     global category
     global type
@@ -62,7 +64,7 @@ def nowplaying_movies(url,publish_time):
                     pass
                 else:
                     contents += con.strip()
-                    contents += '\n\n'
+                    contents += u'\n\n'
             contents = contents.strip()
 
             if len(contents) == 0:
@@ -75,10 +77,15 @@ def nowplaying_movies(url,publish_time):
                     media_end = req.text.index('.mp3',media_start)
                     media_url = req.text[media_start+10:media_end+4]
                     type = 'mp3'
-                elif(u'_file=' in req.text):
-                    media_start = req.text.index('_file=')
+                elif(u'file=' in req.text):
+                    media_start = req.text.index('file=')
                     media_end = req.text.index('.mp3',media_start)
-                    media_url = req.text[media_start+6:media_end+4]
+                    media_url = req.text[media_start+5:media_end+4]
+                    type = 'mp3'
+                elif (u'son=' in req.text):
+                    media_start = req.text.index('son=')
+                    media_end = req.text.index('.mp3', media_start)
+                    media_url = req.text[media_start + 4:media_end + 4]
                     type = 'mp3'
 
             item_id += 1
@@ -170,7 +177,8 @@ def task():
     item_id = get_lastest_item_id();
     print('item_id %d' % item_id)
     index = 0
-    type0 = [('fanyiyuedu',1),('ting',1),('cet',1),('c1070',1),('cihui',1),('kouyu',1),('wenhua',1),('job',1)]
+    type0 = [('ting',150)]
+    # type0 = [('fanyiyuedu',1),('ting',1),('cet',1),('c1070',1),('cihui',1),('kouyu',1),('wenhua',1),('job',1)]
     # type1 = [('take_away_english',2),('todays_phrase',3),('story_of_the_week',2),('q_and_a',2),('media_english',2),('bbc_quiz',2)]
     # type2 = [('quwen',11),('meiju',3),('dianying',2),('lvyou',43),('shishang',40)]
 

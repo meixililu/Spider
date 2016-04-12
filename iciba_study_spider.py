@@ -34,7 +34,7 @@ def nowplaying_movies(url,img_url):
     try:
         title = soup.find('h1',class_='article-h').text
         time_str = soup.find('p',class_='article-aside').text.strip()
-        publish_time = datetime.strptime(time_str[0:19], "%Y-%m-%d %H:%M:%S")
+        publish_time = datetime.strptime(time_str.encode('utf-8')[0:19], "%Y-%m-%d %H:%M:%S")
         if is_exit(title):
             print('already exit')
             return
@@ -89,7 +89,7 @@ def nowplaying_movies(url,img_url):
             print media_url
             print img_url
             print publish_time
-            print ('contents:\n' + contents)
+            print (contents)
 
             Composition = Object.extend('Reading')
             mComposition = Composition()
@@ -107,7 +107,7 @@ def nowplaying_movies(url,img_url):
             mComposition.set('category_2', category_2)
             mComposition.set('type', type)
             mComposition.set('media_url', media_url)
-            mComposition.save()
+            # mComposition.save()
             print('save item')
     except:
         print 'exception'

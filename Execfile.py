@@ -66,11 +66,11 @@ if __name__ == '__main__':
     except:
         print traceback.format_exc()
 
-    # try:
-    #     print 'execfile------cuyoo_spider.py'
-    #     execfile('cuyoo_spider.py')
-    # except:
-    #     print traceback.format_exc()
+    try:
+        print 'execfile------cuyoo_spider.py'
+        execfile('cuyoo_spider.py')
+    except:
+        print traceback.format_exc()
 
 
 
