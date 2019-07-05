@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../OnlineFile/.idea/OnlineFile.iml" filepath="$PROJECT_DIR$/../OnlineFile/.idea/OnlineFile.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Spider.iml" filepath="$PROJECT_DIR$/.idea/Spider.iml" />
       <module fileurl="file://$PROJECT_DIR$/../TestNewThing/.idea/TestNewThing.iml" filepath="$PROJECT_DIR$/../TestNewThing/.idea/TestNewThing.iml" />
+      <module fileurl="file://$USER_HOME$/Desktop/old download/python/.idea/python.iml" filepath="$USER_HOME$/Desktop/old download/python/.idea/python.iml" />
+      <module fileurl="file://$USER_HOME$/Downloads/python/.idea/python.iml" filepath="$USER_HOME$/Downloads/python/.idea/python.iml" />
       <module fileurl="file://$USER_HOME$/tutorial/.idea/tutorial.iml" filepath="$USER_HOME$/tutorial/.idea/tutorial.iml" />
     </modules>
   </component>

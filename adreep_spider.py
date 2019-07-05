@@ -24,35 +24,23 @@ def nowplaying_movies(url,publish_time):
     [script.extract() for script in soup.findAll('script')]
     [style.extract() for style in soup.findAll('style')]
 
-    title = soup.find('div',class_='list_left_list').find('h1').text
+    title = soup.find('div',class_='pull-right sider-content').find('h1').text.strip()
 
     if is_exit(title,publish_time):
         print('already exit')
         return
 
-    your_string = soup.find('div',class_='contentmain').get_text()
-    p=re.compile('\s+ ')
-    contents = re.sub(p,'',your_string)
-    contents = contents.replace('\n\n\n', '\n')
+    your_string = soup.find('div',class_='new-body text-muted fw3').get_text()
+    contents = your_string.strip()
 
-    type_name = soup.find('li',id='select').find('a').text
-    # p = soup.find('div',class_='contentmain').find_all('p')
-    # if len(p) > 0:
-    #     for i in range(0,len(p)):
-    #         contents += p[i].text
-    #         contents += '\n'
-    # else:
-    #     contents = soup.find('div',class_='content-ad').next_sibling
-    #     contents += '\n'
-    #     contents += soup.find('div',class_='content-ad').next_sibling.next_sibling.next_sibling
-
+    type_name = soup.find('li',class_='active').find('a').text
     typeId = get_type_id(type_name)
 
-    print(title)
-    print(type_name)
-    print(typeId)
-    print(item_id)
-    print(contents)
+    # print(title)
+    # print(type_name)
+    # print(typeId)
+    # print(item_id)
+    # print(contents)
 
     item_id += 1
     Composition = Object.extend('Reading')
@@ -94,20 +82,15 @@ def get_all_link(url):
     req.encoding='utf-8'
     soup = BeautifulSoup(req.text,"html5lib")
 
-    ulstr = soup.find(class_='content-list').find_all('li')
-    ptime = soup.find(class_='content-list').find_all('span')
+    divs = soup.find_all('div',class_='card-block card-article')
+    print len(divs)
+    for div in divs:
+        a = div.find('a', class_='read')
+        ptime = soup.find('span', class_='date').text.strip()
+        publish_time = datetime.strptime(ptime, "%Y-%m-%d")
+        detail_url = 'http://www.adreep.cn' + a['href']
+        nowplaying_movies(detail_url, publish_time)
 
-    for i in range(0,len(ulstr)):
-        a = ulstr[i].find('a')
-        timestr = ptime[i]
-        # print timestr.text
-        timesd = timestr.text.split(u'：')
-        publish_time = datetime.strptime(timesd[1].lstrip(), "%Y-%m-%d")
-        href = a['href']
-        detail_url = 'http://www.adreep.cn'+a['href']
-        print('catch url:'+detail_url)
-        print publish_time
-        nowplaying_movies(detail_url,publish_time)
 
 def get_type_id(type_name):
     if type_name == u'初中英语作文' or type_name == u'中考英语作文':
@@ -133,8 +116,8 @@ def get_lastest_item_id():
 
 item_id = 0
 def task():
-    item_id = get_lastest_item_id();
-    print('task start %d' % item_id)
+    global item_id
+    item_id = get_lastest_item_id()
     list = [('xx',2),('cz',2),('gz',2),('dxyy',2),('fw',2)]
     for li in list:
 
